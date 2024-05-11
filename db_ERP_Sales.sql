@@ -86,8 +86,15 @@ CREATE TABLE exchange_rate (
 id_exchange_rate INT AUTO_INCREMENT,
 exchange_rate_date TIMESTAMP NOT NULL,
 exchange_rate_value DECIMAL(10,5) NOT NULL ,
+exchange_rate_currency INT NOT NULL
 PRIMARY KEY (id_exchange_rate)
 ); 
+
+ALTER TABLE exchange_rate
+    ADD CONSTRAINT fk_exchange_rate_currency 
+    FOREIGN KEY (exchange_rate_currency) 
+    REFERENCES currency (id_currency);    
+
 
 -- Suppression et création de la table bank
 DROP TABLE IF EXISTS bank;
