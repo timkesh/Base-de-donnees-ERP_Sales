@@ -86,7 +86,7 @@ CREATE TABLE exchange_rate (
 id_exchange_rate INT AUTO_INCREMENT,
 exchange_rate_date TIMESTAMP NOT NULL,
 exchange_rate_value DECIMAL(10,5) NOT NULL ,
-exchange_rate_currency INT NOT NULL
+exchange_rate_currency INT NOT NULL,
 PRIMARY KEY (id_exchange_rate)
 ); 
 
