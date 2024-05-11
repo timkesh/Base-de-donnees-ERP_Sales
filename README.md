@@ -6,5 +6,5 @@ The task was:
 - making of min 6 complex SQL requests
 - building of min 2 visualisations in Tableau desktop basing on this database
 
-Our database purpose is handling of module 'ERP Sales' wich can become an integral part of ERP system
-of any enterprise that performs wholesale. 
+Our database purpose is handling of module 'ERP Sales' which can become an integral part of ERP system
+of any enterprise that performs international wholesale. 
