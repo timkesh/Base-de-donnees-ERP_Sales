@@ -257,4 +257,61 @@ VALUES
     ('CA1234567890', (SELECT id_bank FROM bank WHERE bank_name = 'Toronto Dominion Bank'), (SELECT id_currency FROM currency WHERE currency_code = 'EUR')), -- Toronto Dominion Bank with EUR
     ('CA0987654321', (SELECT id_bank FROM bank WHERE bank_name = 'Toronto Dominion Bank'), (SELECT id_currency FROM currency WHERE currency_code = 'USD')); -- Toronto Dominion Bank with USD
 
-    
+-- Inserons les donnees dans la table 'exchange_rate'     
+INSERT INTO exchange_rate (exchange_rate_date, exchange_rate_value, id_currency)
+VALUES
+    --Swiss Francs for 1 Swiss Franc
+    ('2023-01', 1.00000, 1), 
+    --Euro, USD, GBP for 1 Swiss Franc 
+    --(monthly average according Swiss National Bank data https://data.snb.ch/en/topics/ziredev/cube/devkum)
+    ('2023-01', 0.99615, 2), --EUR 
+    ('2023-01', 0.92411, 3), --USD
+    ('2023-01', 1.12960, 4), --GBP
+
+    ('2023-02', 0.99045, 2), --EUR
+    ('2023-02', 0.92427, 3), --USD
+    ('2023-02', 1.11787, 4), --GBP
+
+    ('2023-03', 0.99051, 2), --EUR
+    ('2023-03', 0.92552, 3), --USD
+    ('2023-03', 1.12331, 4), --GBP
+
+    ('2023-04', 0.98479, 2), --EUR
+    ('2023-04', 0.89768, 3), --USD
+    ('2023-04', 1.11735, 4), --GBP
+
+    ('2023-05', 0.97533, 2), --EUR
+    ('2023-05', 0.89699, 3), --USD
+    ('2023-05', 1.11990, 4), --GBP
+
+    ('2023-06', 0.97602, 2), --EUR
+    ('2023-06', 0.90083, 3), --USD
+    ('2023-06', 1.13719, 4), --GBP
+
+    ('2023-07', 0.96610, 2), --EUR
+    ('2023-07', 0.87398, 3), --USD
+    ('2023-07', 1.12533, 4), --GBP
+
+    ('2023-08', 0.95835, 2), --EUR
+    ('2023-08', 0.87859, 3), --USD
+    ('2023-08', 1.11603, 4), --GBP
+
+    ('2023-09', 0.95969, 2), --EUR
+    ('2023-09', 0.89823, 3), --USD
+    ('2023-09', 1.11365, 4), --GBP
+
+    ('2023-10', 0.95518, 2), --EUR
+    ('2023-10', 0.90385, 3), --USD
+    ('2023-10', 1.10018, 4), --GBP
+
+    ('2023-11', 0.96324, 2), --EUR
+    ('2023-11', 0.89180, 3), --USD
+    ('2023-11', 1.10675, 4), --GBP
+
+    ('2023-12', 0.94415, 2), --EUR
+    ('2023-12', 0.86603, 3), --USD
+    ('2023-12', 1.09558, 4), --GBP
+
+    ('2024-01', 0.93645, 2), --EUR
+    ('2024-01', 0.85893, 3), --USD
+    ('2024-01', 1.09110, 4); --GBP
