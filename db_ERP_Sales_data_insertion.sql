@@ -173,7 +173,7 @@ VALUES
     (6,29),
     (6,30);
 
- -- Inserons les donnees dans la table 'customer'
+ -- Inserons les donnees dans la table 'currency'
 INSERT INTO currency (currency_name, currency_code)
 VALUES
     ('Swiss Franc', 'CHF'),
@@ -257,4 +257,48 @@ VALUES
     ('CA1234567890', (SELECT id_bank FROM bank WHERE bank_name = 'Toronto Dominion Bank'), (SELECT id_currency FROM currency WHERE currency_code = 'EUR')), -- Toronto Dominion Bank with EUR
     ('CA0987654321', (SELECT id_bank FROM bank WHERE bank_name = 'Toronto Dominion Bank'), (SELECT id_currency FROM currency WHERE currency_code = 'USD')); -- Toronto Dominion Bank with USD
 
-    
+/* Inserons les donnees dans la table 'exchange_rate' 
+monthly average according Swiss National Bank data https://data.snb.ch/en/topics/ziredev/cube/devkum
+*/
+INSERT INTO exchange_rate (exchange_rate_date, exchange_rate_value, exchange_rate_currency)
+VALUES
+    ('2023-01-01', 1.00000, 1), 
+    ('2023-01-01', 0.99615, 2), 
+    ('2023-01-01', 0.92411, 3), 
+    ('2023-01-01', 1.12960, 4), 
+    ('2023-02-01', 0.99045, 2), 
+    ('2023-02-01', 0.92427, 3), 
+    ('2023-02-01', 1.11787, 4), 
+    ('2023-03-01', 0.99051, 2), 
+    ('2023-03-01', 0.92552, 3), 
+    ('2023-03-01', 1.12331, 4), 
+    ('2023-04-01', 0.98479, 2), 
+    ('2023-04-01', 0.89768, 3), 
+    ('2023-04-01', 1.11735, 4), 
+    ('2023-05-01', 0.97533, 2), 
+    ('2023-05-01', 0.89699, 3), 
+    ('2023-05-01', 1.11990, 4), 
+    ('2023-06-01', 0.97602, 2), 
+    ('2023-06-01', 0.90083, 3), 
+    ('2023-06-01', 1.13719, 4), 
+    ('2023-07-01', 0.96610, 2), 
+    ('2023-07-01', 0.87398, 3), 
+    ('2023-07-01', 1.12533, 4), 
+    ('2023-08-01', 0.95835, 2), 
+    ('2023-08-01', 0.87859, 3), 
+    ('2023-08-01', 1.11603, 4), 
+    ('2023-09-01', 0.95969, 2), 
+    ('2023-09-01', 0.89823, 3), 
+    ('2023-09-01', 1.11365, 4), 
+    ('2023-10-01', 0.95518, 2), 
+    ('2023-10-01', 0.90385, 3), 
+    ('2023-10-01', 1.10018, 4), 
+    ('2023-11-01', 0.96324, 2), 
+    ('2023-11-01', 0.89180, 3), 
+    ('2023-11-01', 1.10675, 4), 
+    ('2023-12-01', 0.94415, 2), 
+    ('2023-12-01', 0.86603, 3), 
+    ('2023-12-01', 1.09558, 4), 
+    ('2024-01-01', 0.93645, 2), 
+    ('2024-01-01', 0.85893, 3), 
+    ('2024-01-01', 1.09110, 4);
