@@ -345,3 +345,10 @@ INSERT INTO sale_invoice (invoice_number, invoice_date, invoice_contract, invoic
     ('INV048', '2024-02-17 17:00:00', 15, 3),
     ('INV049', '2024-02-18 18:00:00', 40, 1),
     ('INV050', '2024-02-19 19:00:00', 23, 5);
+
+INSERT INTO measure_unit (measure_unit_name, measure_unit_short_name) 
+    VALUES
+    ('Kilogram', 'kg'),
+    ('Metric tonnes', 'mt'),
+    ('Liter', 'L'),
+    ('Piece', 'pc');
