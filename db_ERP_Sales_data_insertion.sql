@@ -349,6 +349,6 @@ INSERT INTO sale_invoice (invoice_number, invoice_date, invoice_contract, invoic
 INSERT INTO measure_unit (measure_unit_name, measure_unit_short_name) 
     VALUES
     ('Kilogram', 'kg'),
-    ('Metric tonnes', 'mt'),
-    ('Liter', 'L'),
-    ('Piece', 'pc');
+    ('Metric ton', 'mt'),
+    ('Liter', 'l'),
+    ('Piece', 'pcs');
