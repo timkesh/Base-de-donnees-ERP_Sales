@@ -376,14 +376,14 @@ VALUES
 /* Faisons tableau temporaire 'indicative_price' pour stocker les parametres reeles 
 des prix de differents nomenclatures
 */
-DROP TABLE IF EXISTS indicative_price
+DROP TABLE IF EXISTS indicative_price;
 CREATE TABLE indicative_price (
     id_indicative_price INT AUTO_INCREMENT,
     id_nomenclature INT NOT NULL,
     min_price DECIMAL(9,2) NOT NULL,
     max_price DECIMAL(9,2) NOT NULL,
-    start_price DECIMAL(9,2) NOT NULL
-    price_step DECIMAL (9,2) NOT NULL 
+    start_price DECIMAL(9,2) NOT NULL,
+    price_step DECIMAL (9,2) NOT NULL, 
     PRIMARY KEY (id_indicative_price)
 );
 ALTER TABLE indicative_price
@@ -441,9 +441,7 @@ BEGIN
     UPDATE indicative_price
     SET start_price = LEAST(max_price, 
                                 GREATEST(min_price, 
-                                         start_price + (0.5 - RAND())*2*price_step
-                                         ) 
-                            );
+                                         start_price + (0.5 - RAND()) * 2 * price_step));
 END |
 
 DELIMITER ;
