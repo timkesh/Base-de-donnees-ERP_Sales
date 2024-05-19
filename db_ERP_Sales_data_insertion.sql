@@ -352,3 +352,11 @@ INSERT INTO measure_unit (measure_unit_name, measure_unit_short_name)
     ('Metric ton', 'mt'),
     ('Liter', 'l'),
     ('Piece', 'pcs');
+
+    -- Inserons les donnees dans la table 'nomenclature_group'
+INSERT INTO nomenclature_group (nomenclature_group_name)
+VALUES
+    ('Oils'),
+    ('Meals'),
+    ('Services');
+
