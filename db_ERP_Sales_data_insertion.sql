@@ -383,15 +383,15 @@ CREATE TABLE indicative_price (
     min_price DECIMAL(9,2) NOT NULL,
     max_price DECIMAL(9,2) NOT NULL,
     start_price DECIMAL(9,2) NOT NULL,
-    price_step DECIMAL (9,2) NOT NULL, 
+    price_steps DECIMAL (9,2) NOT NULL, 
     PRIMARY KEY (id_indicative_price)
 );
 ALTER TABLE indicative_price
     ADD CONSTRAINT fk_indicative_price_nomenclature
-    FOREIGN KEY (id_nomenclaturee)
+    FOREIGN KEY (id_nomenclature)
     REFERENCES nomenclature (id_nomenclature);
 
-INSERT INTO indicative_price (id_nomenclature, min_price, max_price, price_step)
+INSERT INTO indicative_price (id_nomenclature, min_price, max_price, start_price, price_steps)
 VALUES
     (1,600, 1100, 800, 40),
     (2,600, 1200, 850, 40),
@@ -441,15 +441,24 @@ BEGIN
     UPDATE indicative_price
     SET start_price = LEAST(max_price, 
                                 GREATEST(min_price, 
-                                         start_price + (0.5 - RAND()) * 2 * price_step));
+                                         start_price + (0.5 - RAND()) * 2 * price_steps));
 END |
 
 DELIMITER ;
 
 
+/* Le tableau suivante a ete cree pour memoriser les valeurs de variables locales 
+pour faire l'analyse de fonctionnement de la procedure
+*/
+
+CREATE TABLE for_debugging(
+    variable VARCHAR(50),
+    v_value DECIMAL(12,3));
+
 /* Maintenant nous faisons procedure 'generate_consignments' qui va generer et inserer dans
 'consignment' des donnees aléatoires (mais qui correspondent plus ou moins a ce qui se passe dans realite)
 */
+
 
 DELIMITER |
 CREATE PROCEDURE generate_consignments (
@@ -458,41 +467,60 @@ CREATE PROCEDURE generate_consignments (
     IN max_number_of_consignments INT
 )
 BEGIN
-    DECLARE current_invoice INT DEFAULT 1; -- id_sale_invoice for which we are adding consignments
-
-    -- We count total number of existing invoices and used nomenclatures
-    DECLARE number_of_invoices INT DEFAULT SELECT COUNT(id_sale_invoice) FROM sale_invoice;
+    -- id_sale_invoice for which we are adding consignments
+    DECLARE current_invoice INT DEFAULT 1; 
+    -- Number of existing invoices and used nomenclatures
+    DECLARE number_of_invoices INT; 
     DECLARE number_of_nomenclatures INT DEFAULT 5;
-
     -- We randomly choose nomenclature for 1st sale_invoice (between first 5 goods)
-    DECLARE current_nomenclature INT DEFAULT ROUND(RAND() * number_of_nomenclatures);
-
-    -- We load data from 'indicative_price' table for that nomenclature into correspondent variables
-    DECLARE min_price DECIMAL(9,2) DEFAULT SELECT min_price 
-                                                FROM indicative_price 
-                                                WHERE id_nomenclature = current_nomenclature;
-    DECLARE max_price DECIMAL(9,2) DEFAULT SELECT max_price 
-                                                FROM indicative_price 
-                                                WHERE id_nomenclature = current_nomenclature; 
-    DECLARE price_step DECIMAL(9,2) DEFAULT SELECT price_step 
-                                                FROM indicative_price 
-                                                WHERE id_nomenclature = current_nomenclature;                                               
-    -- We form current price parameters for random generation of 1st invoice
-    DECLARE current_min_price DECIMAL(9,2) DEFAULT SELECT start_price 
-                                                FROM indicative_price 
-                                                WHERE id_nomenclature = current_nomenclature; 
-    DECLARE current_max_price DECIMAL(9,2) DEFAULT LEAST(max_price, current_min_price + price_step);
-    
-    -- We randomly choose number of consignments for 1st sale_invoice
+    DECLARE current_nomenclature INT DEFAULT CEILING(RAND() * number_of_nomenclatures);
+    -- Declaring other necessary variables
+    DECLARE alltime_min_price DECIMAL(9,2); 
+    DECLARE alltime_max_price DECIMAL(9,2); 
+    DECLARE price_step DECIMAL(9,2);    
+    DECLARE current_min_price DECIMAL(9,2);
+    DECLARE current_max_price DECIMAL(9,2);
     DECLARE current_number_of_consignments INT DEFAULT CEILING(RAND() * max_number_of_consignments);
-    -- We declare consignment counter
-    DECLARE consignment_count INT 
-
+    DECLARE consignment_count INT; 
+    
+    INSERT INTO for_debugging VALUES ('current_invoice', current_invoice);
+    INSERT INTO for_debugging VALUES ('number_of_nomenclatures', number_of_nomenclatures);
+    INSERT INTO for_debugging VALUES ('current_nomenclature', current_nomenclature);
+    INSERT INTO for_debugging VALUES ('current_number_of_consignments', current_number_of_consignments);
+    -- putting initial values to declared variables
+    SELECT COUNT(id_sale_invoice) 
+    INTO number_of_invoices
+    FROM sale_invoice
+    WHERE 1;
+    INSERT INTO for_debugging VALUES ('number_of_invoices', number_of_invoices);
+    SELECT min_price 
+    INTO alltime_min_price
+    FROM indicative_price 
+    WHERE id_nomenclature = current_nomenclature;
+    INSERT INTO for_debugging VALUES ('alltime_min_price', alltime_min_price);
+    SELECT max_price 
+    INTO alltime_max_price
+    FROM indicative_price
+    WHERE id_nomenclature = current_nomenclature; 
+    INSERT INTO for_debugging VALUES ('alltime_max_price', alltime_max_price);
+    SELECT price_steps 
+    INTO price_step
+    FROM indicative_price
+    WHERE id_nomenclature = current_nomenclature;  
+    INSERT INTO for_debugging VALUES ('price_step', price_step);
+    SELECT start_price 
+    INTO current_min_price
+    FROM indicative_price  
+    WHERE id_nomenclature = current_nomenclature; 
+    INSERT INTO for_debugging VALUES ('current_min_price', current_min_price);
+    SET current_max_price = LEAST(alltime_max_price, current_min_price + price_step);
+    INSERT INTO for_debugging VALUES ('current_max_price', current_max_price);
     -- We generate consignments for all existing invoices
     WHILE (current_invoice <= number_of_invoices) DO 
         SET consignment_count = 1;
         WHILE (consignment_count <= current_number_of_consignments) DO
-            add_random_consignment(
+            INSERT INTO for_debugging VALUES ('consignment_count', consignment_count);
+            CALL add_random_consignment(
                 current_invoice, 
                 current_nomenclature, 
                 min_quantity,
@@ -503,22 +531,41 @@ BEGIN
         END WHILE;
         -- We change the data for the next invoice
         SET current_invoice = current_invoice + 1;
-        SET current_nomenclature  = ROUND(RAND() * number_of_nomenclatures);
+        SET current_nomenclature  = CEILING(RAND() * number_of_nomenclatures);
         SET current_number_of_consignments = CEILING(RAND() * max_number_of_consignments);
         CALL change_prices();
-        SET min_price = SELECT min_price 
-                        FROM indicative_price 
-                        WHERE id_nomenclature = current_nomenclature; 
-        SET max_price = SELECT min_price 
-                        FROM indicative_price 
-                        WHERE id_nomenclature = current_nomenclature; 
-        SET price_step = SELECT price_step 
-                        FROM indicative_price 
-                        WHERE id_nomenclature = current_nomenclature;                                 
-        SET current_min_price = SELECT start_price 
-                                FROM indicative_price 
-                                WHERE id_nomenclature = current_nomenclature; 
-        SET current_max_price = LEAST(max_price, current_min_price + price_step); 
+        
+        SELECT min_price
+        INTO alltime_min_price
+        FROM indicative_price
+        WHERE id_nomenclature = current_nomenclature; 
+        
+        SELECT max_price 
+        INTO alltime_max_price
+        FROM indicative_price 
+        WHERE id_nomenclature = current_nomenclature; 
+
+        SELECT price_steps 
+        INTO price_step
+        FROM indicative_price 
+        WHERE id_nomenclature = current_nomenclature;  
+
+        SELECT start_price 
+        INTO current_min_price
+        FROM indicative_price 
+        WHERE id_nomenclature = current_nomenclature; 
+        
+        SET current_max_price = LEAST(alltime_max_price, current_min_price + price_step); 
+
+        INSERT INTO for_debugging VALUES ('current_invoice', current_invoice);
+        INSERT INTO for_debugging VALUES ('current_nomenclature', current_nomenclature);
+        INSERT INTO for_debugging VALUES ('current_number_of_consignments', current_number_of_consignments);
+        INSERT INTO for_debugging VALUES ('alltime_min_price', alltime_min_price);
+        INSERT INTO for_debugging VALUES ('alltime_max_price', alltime_max_price);
+        INSERT INTO for_debugging VALUES ('price_step', price_step);
+        INSERT INTO for_debugging VALUES ('current_min_price', current_min_price);
+        INSERT INTO for_debugging VALUES ('current_max_price', current_max_price);
+
     END WHILE;
 
 END |
