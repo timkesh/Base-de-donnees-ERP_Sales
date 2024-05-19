@@ -302,3 +302,10 @@ VALUES
     ('2024-01-01', 0.93645, 2), 
     ('2024-01-01', 0.85893, 3), 
     ('2024-01-01', 1.09110, 4);
+
+    -- Inserons les donnees dans la table 'nomenclature_group'
+INSERT INTO nomenclature_group (nomenclature_group_name)
+VALUES
+    ('Oils'),
+    ('Meals'),
+    ('Services');
