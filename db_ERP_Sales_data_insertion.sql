@@ -360,3 +360,13 @@ VALUES
     ('Meals'),
     ('Services');
 
+    -- Inserons les donnees dans la table 'nomenclature'
+INSERT INTO nomenclature (nomenclature_name, nomenclature_group_id, nomenclature_measure_unit)
+VALUES
+    ('Crude sunflower seeds oil', 1, 2),
+    ('Crude rapeseed oil', 1, 2),
+    ('Sunflower seed meal non-pellets', 2, 2),
+    ('Sunflower seed meal pellets', 2, 2),
+    ('Rapeseed meal', 2, 2),
+    ('Sea Freight', 2, 3),
+    ('Transshipment in port', 2, 3);    
