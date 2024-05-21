@@ -580,7 +580,7 @@ CALL generate_consignments (1000,7000,3);
 -- Insertions les donnees dans la table 'shipment' 
 
 DELIMITER |
-CREATE PROCEDURE generate_shipments ()
+CREATE PROCEDURE generate_shipments (IN days_before INT, IN days_after INT)
 BEGIN
     DECLARE current_consignment INT DEFAULT 1; 
     DECLARE consignments_total_number INT;
@@ -591,7 +591,13 @@ BEGIN
     FROM consignment;
 
     WHILE current_consignment <= consignments_total_number DO
-        SELECT DATE_ADD(sale_invoice.invoice_date, INTERVAL (FLOOR(1 + RAND() * 31)-10) DAY)
+        /* the date for shipment is generated basing on correspondent sale_invoice date
+        by adding a random number of days within the range (- days_before, days_after)
+        */
+        SELECT DATE_ADD(
+                    sale_invoice.invoice_date, 
+                    INTERVAL (FLOOR(1 + RAND() * (days_before+days_after))-days_before) DAY
+                    )
         INTO generated_date
         FROM consignment
         INNER JOIN sale_invoice
@@ -605,4 +611,57 @@ BEGIN
 END |
 DELIMITER ;
 
-CALL generate_shipments();
+CALL generate_shipments(10,20);
+
+--- on fait la fonction supplementaire qui retourne le cours de certain monnaie pour certain jour
+DELIMITER $$
+
+CREATE FUNCTION get_exchange_rate(currency_id INT, target_timestamp TIMESTAMP)
+RETURNS DECIMAL(10,5)
+DETERMINISTIC
+BEGIN
+    DECLARE exchange_rate DECIMAL(10,5);
+    
+    SELECT er.exchange_rate_value
+    INTO exchange_rate
+    FROM exchange_rate er
+    JOIN currency c ON er.exchange_rate_currency = c.id_currency
+    WHERE c.id_currency = currency_id
+      AND er.exchange_rate_date <= target_timestamp
+    ORDER BY er.exchange_rate_date DESC
+    LIMIT 1;
+
+    RETURN exchange_rate;
+END $$
+
+DELIMITER ;
+
+
+-- on fait view 'sale_invoice_full_aggregated_view' 
+DROP VIEW IF EXISTS sale_invoice_full_aggregated_view;
+CREATE VIEW sale_invoice_full_aggregated_view AS
+SELECT si.id_sale_invoice AS invoice_id, 
+       si.invoice_number AS invoice_number, 
+       si.invoice_date AS invoice_date, 
+       sc.contract_number AS contract_number,
+       sc.contract_date AS contract_date,
+       cust.customer_name AS buyer,
+       country.country_name AS buyer_country,
+       cur.currency_code AS invoice_currency,
+       CONCAT(incoterms.incoterms_name, ' ', place.place_name) AS sale_terms,
+       CAST(SUM(cons.consignment_price * cons.consignment_quantity) AS DECIMAL(15,2)) AS invoice_amount,
+       CAST(SUM(cons.consignment_price * cons.consignment_quantity) * get_exchange_rate(si.invoice_currency, si.invoice_date) AS DECIMAL(15,2)) AS invoice_amount_CHF,
+       CAST(SUM(ip.incoming_payment_amount) AS DECIMAL(15,2)) AS paid_amount
+FROM sale_invoice si
+INNER JOIN consignment cons ON cons.consignment_sale_invoice = si.id_sale_invoice
+LEFT JOIN incoming_payment ip ON ip.incoming_payment_sale_invoice = si.id_sale_invoice
+LEFT JOIN sale_contract sc ON si.invoice_contract = sc.id_sale_contract
+LEFT JOIN customer cust ON cust.id_customer = sc.contract_customer
+INNER JOIN currency cur ON si.invoice_currency = cur.id_currency
+INNER JOIN country ON country.id_country = cust.customer_country
+INNER JOIN sale_point sp ON sp.id_sale_point = sc.contract_sale_point
+INNER JOIN incoterms ON incoterms.id_incoterms = sp.sale_point_incoterms
+INNER JOIN place ON place.id_place = sp.sale_point_place
+GROUP BY si.id_sale_invoice;
+
+SELECT * FROM sale_invoice_full_aggregated_view;
