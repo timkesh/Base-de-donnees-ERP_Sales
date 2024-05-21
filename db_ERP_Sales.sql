@@ -255,7 +255,7 @@ ALTER TABLE incoming_payment
 -- Suppression et création de la table shipment
 DROP TABLE IF EXISTS shipment;
 CREATE TABLE shipment (
-    id_shipment INT NOT NULL,
+    id_shipment INT AUTO_INCREMENT,
     shipment_date TIMESTAMP NOT NULL,
     id_consignment INT not NULL,
     PRIMARY KEY (id_shipment)

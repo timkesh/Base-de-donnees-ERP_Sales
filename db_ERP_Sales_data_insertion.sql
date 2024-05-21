@@ -448,7 +448,7 @@ DELIMITER ;
 
 
 /* Le tableau suivante a ete cree pour memoriser les valeurs de variables locales 
-pour faire l'analyse de fonctionnement de la procedure
+pour faire l'analyse de fonctionnement de la procedure 'generate_consignments'
 */
 
 CREATE TABLE for_debugging(
@@ -575,3 +575,34 @@ DELIMITER ;
 -- Demarration de generation des donnees de 'consignment'
 
 CALL generate_consignments (1000,7000,3);
+
+
+-- Insertions les donnees dans la table 'shipment' 
+
+DELIMITER |
+CREATE PROCEDURE generate_shipments ()
+BEGIN
+    DECLARE current_consignment INT DEFAULT 1; 
+    DECLARE consignments_total_number INT;
+    DECLARE generated_date TIMESTAMP;
+    
+    SELECT COUNT(id_consignment) 
+    INTO consignments_total_number
+    FROM consignment;
+
+    WHILE current_consignment <= consignments_total_number DO
+        SELECT DATE_ADD(sale_invoice.invoice_date, INTERVAL (FLOOR(1 + RAND() * 31)-10) DAY)
+        INTO generated_date
+        FROM consignment
+        INNER JOIN sale_invoice
+                ON consignment.consignment_sale_invoice = sale_invoice.id_sale_invoice
+        WHERE id_consignment = current_consignment;
+
+        INSERT INTO shipment (id_consignment, shipment_date)
+        VALUES (current_consignment, generated_date);
+        SET current_consignment = current_consignment + 1;
+    END WHILE;
+END |
+DELIMITER ;
+
+CALL generate_shipments();
