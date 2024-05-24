@@ -48,7 +48,7 @@ DROP TABLE IF EXISTS incoterms;
 CREATE TABLE incoterms (
 id_incoterms INT AUTO_INCREMENT,
 incoterms_name CHAR(3) NOT NULL,
-incoterms_full_name CHAR(50) NOT NULL ,
+incoterms_full_name VARCHAR(50) NOT NULL ,
 PRIMARY KEY (id_incoterms)
 ); 
 
