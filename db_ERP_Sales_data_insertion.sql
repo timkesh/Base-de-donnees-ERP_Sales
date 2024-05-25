@@ -305,46 +305,46 @@ VALUES
 
 INSERT INTO sale_invoice (invoice_number, invoice_date, invoice_contract, invoice_currency) 
     VALUES
-    ('INV011', '2024-01-11 10:00:00', 7, 3),
-    ('INV012', '2024-01-12 11:00:00', 21, 5),
-    ('INV013', '2024-01-13 12:00:00', 35, 1),
-    ('INV014', '2024-01-14 13:00:00', 14, 2),
-    ('INV015', '2024-01-15 14:00:00', 3, 4),
-    ('INV016', '2024-01-16 15:00:00', 28, 3),
-    ('INV017', '2024-01-17 16:00:00', 19, 2),
-    ('INV018', '2024-01-18 17:00:00', 42, 1),
-    ('INV019', '2024-01-19 18:00:00', 11, 4),
-    ('INV020', '2024-01-20 19:00:00', 6, 5),
-    ('INV021', '2024-01-21 10:00:00', 24, 1),
-    ('INV022', '2024-01-22 11:00:00', 8, 5),
-    ('INV023', '2024-01-23 12:00:00', 31, 3),
-    ('INV024', '2024-01-24 13:00:00', 9, 2),
-    ('INV025', '2024-01-25 14:00:00', 16, 4),
-    ('INV026', '2024-01-26 15:00:00', 22, 1),
-    ('INV027', '2024-01-27 16:00:00', 36, 2),
-    ('INV028', '2024-01-28 17:00:00', 13, 5),
-    ('INV029', '2024-01-29 18:00:00', 4, 3),
-    ('INV030', '2024-01-30 19:00:00', 38, 4),
-    ('INV031', '2024-01-31 10:00:00', 20, 1),
-    ('INV032', '2024-02-01 11:00:00', 27, 2),
-    ('INV033', '2024-02-02 12:00:00', 1, 4),
-    ('INV034', '2024-02-03 13:00:00', 34, 3),
-    ('INV035', '2024-02-04 14:00:00', 18, 5),
-    ('INV036', '2024-02-05 15:00:00', 41, 2),
-    ('INV037', '2024-02-06 16:00:00', 10, 1),
-    ('INV038', '2024-02-07 17:00:00', 30, 4),
-    ('INV039', '2024-02-08 18:00:00', 12, 3),
-    ('INV040', '2024-02-09 19:00:00', 25, 5),
-    ('INV041', '2024-02-10 10:00:00', 29, 2),
-    ('INV042', '2024-02-11 11:00:00', 2, 4),
-    ('INV043', '2024-02-12 12:00:00', 32, 3),
-    ('INV044', '2024-02-13 13:00:00', 17, 1),
-    ('INV045', '2024-02-14 14:00:00', 39, 5),
-    ('INV046', '2024-02-15 15:00:00', 5, 2),
-    ('INV047', '2024-02-16 16:00:00', 26, 4),
-    ('INV048', '2024-02-17 17:00:00', 15, 3),
-    ('INV049', '2024-02-18 18:00:00', 40, 1),
-    ('INV050', '2024-02-19 19:00:00', 23, 5);
+    ('INV011', '2023-01-11 10:00:00', 7, 3),
+    ('INV012', '2023-01-12 11:00:00', 21, 3),
+    ('INV013', '2023-01-13 12:00:00', 35, 1),
+    ('INV014', '2023-01-14 13:00:00', 14, 2),
+    ('INV015', '2023-01-15 14:00:00', 3, 4),
+    ('INV016', '2023-01-16 15:00:00', 28, 3),
+    ('INV017', '2023-01-17 16:00:00', 19, 2),
+    ('INV018', '2023-01-18 17:00:00', 42, 1),
+    ('INV019', '2023-01-19 18:00:00', 11, 4),
+    ('INV020', '2023-01-20 19:00:00', 6, 3),
+    ('INV021', '2023-01-21 10:00:00', 24, 1),
+    ('INV022', '2023-01-22 11:00:00', 8, 3),
+    ('INV023', '2023-01-23 12:00:00', 31, 3),
+    ('INV024', '2023-01-24 13:00:00', 9, 2),
+    ('INV025', '2023-01-25 14:00:00', 16, 4),
+    ('INV026', '2023-01-26 15:00:00', 22, 1),
+    ('INV027', '2023-01-27 16:00:00', 36, 2),
+    ('INV028', '2023-01-28 17:00:00', 13, 3),
+    ('INV029', '2023-01-29 18:00:00', 4, 3),
+    ('INV030', '2023-01-30 19:00:00', 38, 4),
+    ('INV031', '2023-01-31 10:00:00', 20, 1),
+    ('INV032', '2023-02-01 11:00:00', 27, 2),
+    ('INV033', '2023-02-02 12:00:00', 1, 4),
+    ('INV034', '2023-02-03 13:00:00', 34, 3),
+    ('INV035', '2023-02-04 14:00:00', 18, 3),
+    ('INV036', '2023-02-05 15:00:00', 41, 2),
+    ('INV037', '2023-02-06 16:00:00', 10, 1),
+    ('INV038', '2023-02-07 17:00:00', 30, 4),
+    ('INV039', '2023-02-08 18:00:00', 12, 3),
+    ('INV040', '2023-02-09 19:00:00', 25, 3),
+    ('INV041', '2023-02-10 10:00:00', 29, 2),
+    ('INV042', '2023-02-11 11:00:00', 2, 4),
+    ('INV043', '2023-02-12 12:00:00', 32, 3),
+    ('INV044', '2023-02-13 13:00:00', 17, 1),
+    ('INV045', '2023-02-14 14:00:00', 39, 3),
+    ('INV046', '2023-02-15 15:00:00', 5, 2),
+    ('INV047', '2023-02-16 16:00:00', 26, 4),
+    ('INV048', '2023-02-17 17:00:00', 15, 3),
+    ('INV049', '2023-02-18 18:00:00', 40, 1),
+    ('INV050', '2023-02-19 19:00:00', 23, 3);
 
 INSERT INTO measure_unit (measure_unit_name, measure_unit_short_name) 
     VALUES
@@ -651,7 +651,7 @@ SELECT si.id_sale_invoice AS invoice_id,
        CONCAT(incoterms.incoterms_name, ' ', place.place_name) AS sale_terms,
        CAST(SUM(cons.consignment_price * cons.consignment_quantity) AS DECIMAL(15,2)) AS invoice_amount,
        CAST(SUM(cons.consignment_price * cons.consignment_quantity) * get_exchange_rate(si.invoice_currency, si.invoice_date) AS DECIMAL(15,2)) AS invoice_amount_CHF,
-       CAST(SUM(ip.incoming_payment_amount) AS DECIMAL(15,2)) AS paid_amount
+       CAST(SUM(ip.incoming_payment_amount) / COUNT(ip.incoming_payment_amount) AS DECIMAL(15,2)) AS paid_amount
 FROM sale_invoice si
 INNER JOIN consignment cons ON cons.consignment_sale_invoice = si.id_sale_invoice
 LEFT JOIN incoming_payment ip ON ip.incoming_payment_sale_invoice = si.id_sale_invoice
@@ -663,5 +663,118 @@ INNER JOIN sale_point sp ON sp.id_sale_point = sc.contract_sale_point
 INNER JOIN incoterms ON incoterms.id_incoterms = sp.sale_point_incoterms
 INNER JOIN place ON place.id_place = sp.sale_point_place
 GROUP BY si.id_sale_invoice;
+
+/* -- inserons les donnees dans la table 'incoming_payments'
+
+
+Le tableau suivante a ete cree pour memoriser les valeurs de variables locales 
+pour faire l'analyse de fonctionnement de la procedure 'generate_payments'
+*/
+
+CREATE TABLE for_debugging_2(
+    variable VARCHAR(50),
+    v_value DECIMAL(15,2)
+);
+
+DELIMITER |
+CREATE PROCEDURE generate_payments (IN days_before INT, IN days_after INT, IN max_num_of_pmnts_per_invoice INT)
+BEGIN
+    DECLARE current_invoice INT DEFAULT 1; 
+    DECLARE invoices_total_number INT;
+    DECLARE generated_date TIMESTAMP;
+    DECLARE current_currency INT;
+    DECLARE generated_bank_account INT; 
+    DECLARE number_of_payments INT;
+    DECLARE current_payment INT DEFAULT 1;
+    DECLARE max_generated_amount DECIMAL(15,2);
+    DECLARE random_seed DECIMAL (16,15);
+    DECLARE generated_amount DECIMAL(15,2);
+    
+    SELECT COUNT(id_sale_invoice) 
+    INTO invoices_total_number
+    FROM sale_invoice;
+
+    INSERT INTO for_debugging_2 VALUES ('invoices_total_number', invoices_total_number);
+
+
+    WHILE current_invoice <= invoices_total_number DO
+        -- get the currency of current invoice
+        SELECT invoice_currency
+        INTO current_currency
+        FROM sale_invoice
+        WHERE id_sale_invoice = current_invoice;
+        /* generated_bank_account is chosen randomly from bank accounts with the same currency as current_invoice
+        */
+        SELECT ba.id_bank_account 
+        INTO generated_bank_account
+        FROM bank_account ba
+        WHERE ba.bank_account_currency = current_currency
+        ORDER BY RAND()
+        LIMIT 1;
+        /* we randomly chose how many payments we'll insert for this invoice */
+        SET number_of_payments = CEILING(RAND() * max_num_of_pmnts_per_invoice);
+        
+        INSERT INTO for_debugging_2 VALUES ('number_of_payments', number_of_payments);
+
+        /* we determine what amount is unpaid now*/
+        SELECT COALESCE (invoice_amount - paid_amount, invoice_amount)
+        INTO max_generated_amount
+        FROM sale_invoice_full_aggregated_view
+        WHERE invoice_id = current_invoice;
+
+        INSERT INTO for_debugging_2 VALUES ('current_invoice', current_invoice);
+        INSERT INTO for_debugging_2 VALUES ('max_generated_amount_1', max_generated_amount);
+
+        WHILE (current_payment <= number_of_payments) AND (max_generated_amount > 0) DO
+            /* the date for payment is generated basing on correspondent sale_invoice date
+            by adding a random number of days within the range (- days_before, days_after)
+            */
+            SELECT DATE_ADD(
+                        sale_invoice.invoice_date, 
+                        INTERVAL (FLOOR(1 + RAND() * (days_before+days_after))-days_before) DAY
+                        )
+            INTO generated_date
+            FROM sale_invoice
+            WHERE sale_invoice.id_sale_invoice = current_invoice;        
+            /* we increase to 0.8 the probability of full payment of the unpaid amount*/
+            SET random_seed = RAND();
+            INSERT INTO for_debugging_2 VALUES ('random_seed', random_seed);
+
+            SELECT 
+                CASE
+                    WHEN random_seed > 0.2 THEN max_generated_amount
+                    ELSE random_seed * 5 * max_generated_amount
+                END
+            INTO generated_amount;
+            INSERT INTO for_debugging_2 VALUES ('generated_amount', generated_amount);
+
+            /* we insert payment if its amount is greater than 0 */
+            IF generated_amount > 0 THEN
+                INSERT INTO incoming_payment (incoming_payment_date, incoming_payment_sale_invoice, incoming_payment_amount, incoming_payment_bank_account)
+                VALUES (generated_date, current_invoice, generated_amount, generated_bank_account);
+                /* we determine what amount is unpaid now after insertion*/
+                SELECT invoice_amount - paid_amount
+                INTO max_generated_amount
+                FROM sale_invoice_full_aggregated_view
+                WHERE invoice_id = current_invoice;
+
+                INSERT INTO for_debugging_2 VALUES ('max_generated_amount_after', max_generated_amount);
+                
+            END IF;
+
+            SET current_payment = current_payment + 1;
+            
+            INSERT INTO for_debugging_2 VALUES ('current_payment', current_payment);
+
+        END WHILE;
+
+        SET current_payment = 1;
+        SET current_invoice = current_invoice + 1;
+        
+    END WHILE;
+END |
+DELIMITER ;
+
+CALL generate_payments(10,20,3);
 
 SELECT * FROM sale_invoice_full_aggregated_view;
