@@ -69,3 +69,31 @@ CREATE VIEW sale_invoices_unpaid_view AS
 SELECT * FROM sale_invoice_full_aggregated_view
 WHERE paid_amount < invoice_amount
 ORDER BY invoice_date;
+
+-- on fait view 'incoming_payments_view'
+DROP VIEW IF EXISTS incoming_payments_view;
+CREATE VIEW incoming_payments_view AS
+SELECT 
+       ip.incoming_payment_date AS payment_date,
+       ip.incoming_payment_amount AS payment_amount,
+       cur.currency_code AS currency,
+       CAST(ip.incoming_payment_amount * get_exchange_rate(si.invoice_currency, ip.incoming_payment_date) AS DECIMAL(15,2)) AS payment_amount_CHF,
+       get_exchange_rate(si.invoice_currency, ip.incoming_payment_date) AS CHF_rate,
+       ba.bank_account_number AS bank_account,
+       bank.bank_name AS bank_name,
+       bank_country.country_name AS bank_country,
+       si.invoice_number AS invoice_number,
+       si.invoice_date AS invoice_date,
+       cust.customer_name AS buyer,
+       buyers_country.country_name AS buyer_country
+       
+FROM incoming_payment ip
+INNER JOIN sale_invoice si ON ip.incoming_payment_sale_invoice = si.id_sale_invoice
+INNER JOIN sale_contract sc ON si.invoice_contract = sc.id_sale_contract
+INNER JOIN customer cust ON cust.id_customer = sc.contract_customer
+INNER JOIN currency cur ON si.invoice_currency = cur.id_currency
+INNER JOIN country buyers_country ON buyers_country.id_country = cust.customer_country
+INNER JOIN bank_account ba ON ba.id_bank_account = ip.incoming_payment_bank_account
+INNER JOIN bank ON bank.id_bank = ba.bank_account_bank
+INNER JOIN country bank_country ON bank_country.id_country = bank.bank_country
+ORDER BY ip.incoming_payment_date;
