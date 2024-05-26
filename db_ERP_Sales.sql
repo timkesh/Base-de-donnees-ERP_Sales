@@ -265,3 +265,48 @@ ALTER TABLE shipment
     ADD CONSTRAINT fk_shipment_consignment
     FOREIGN KEY (id_consignment)
     REFERENCES consignment (id_consignment);
+
+/* Creation de trigger pour verifier l'existance de dependences avant de 
+supprimer l'ecriture dans tableau 'country'.
+Foreign key constraint integrity check est fait automatiquement par MySQL.
+La raison de ce trigger est de remplacer le message d'erreur de foreign key 
+constraint integrity check par le message qui va dire plus precisement 
+pourquoi la deletion est impossible 
+*/
+DELIMITER //
+
+CREATE TRIGGER before_country_delete
+BEFORE DELETE ON country
+FOR EACH ROW
+BEGIN
+    DECLARE place_count INT;
+    DECLARE customer_count INT;
+    DECLARE bank_count INT;
+
+    -- Check if there are any related records in the place table
+    SELECT COUNT(*) INTO place_count FROM place WHERE place_country = OLD.id_country;
+
+    -- If related records exist, raise an error to prevent deletion
+    IF place_count > 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot delete country as it has related places.';
+    END IF;
+
+    -- Check if there are any related records in the customer table
+    SELECT COUNT(*) INTO customer_count FROM customer WHERE customer_country = OLD.id_country;
+
+    -- If related records exist, raise an error to prevent deletion
+    IF customer_count > 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot delete country as it has related customers.';
+    END IF;
+    
+    -- Check if there are any related records in the bank table
+    SELECT COUNT(*) INTO bank_count FROM bank WHERE bank_country = OLD.id_country;
+
+    -- If related records exist, raise an error to prevent deletion
+    IF bank_count > 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot delete country as it has related banks.';
+    END IF;
+END;
+
+//
+DELIMITER ;
