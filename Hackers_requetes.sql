@@ -62,3 +62,10 @@ ORDER BY si.invoice_date, nomenclature.id_nomenclature;
 
 SELECT * FROM sales_statistics_view
 WHERE sale_date BETWEEN '2023-01-01' AND '2023-01-31';
+
+-- on fait view 'sale_invoices_unpaid_view'
+DROP VIEW IF EXISTS sale_invoices_unpaid_view;
+CREATE VIEW sale_invoices_unpaid_view AS
+SELECT * FROM sale_invoice_full_aggregated_view
+WHERE paid_amount < invoice_amount
+ORDER BY invoice_date;
