@@ -106,7 +106,7 @@ VALUES
     ('Aliaga', 39),
     ('Bandirma', 39),
     ('Iskenderun', 39),
-    ('Limassol', 9),
+    ('Limassol', 11),
     ('Alexandria', 13),
     ('Port Said', 13),
     ('Tunis', 38),
