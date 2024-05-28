@@ -625,8 +625,7 @@ BEGIN
     SELECT er.exchange_rate_value
     INTO exchange_rate
     FROM exchange_rate er
-    JOIN currency c ON er.exchange_rate_currency = c.id_currency
-    WHERE c.id_currency = currency_id
+    WHERE er.exchange_rate_currency = currency_id
       AND er.exchange_rate_date <= target_timestamp
     ORDER BY er.exchange_rate_date DESC
     LIMIT 1;
