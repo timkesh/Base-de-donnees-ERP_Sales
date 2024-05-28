@@ -310,3 +310,86 @@ END;
 
 //
 DELIMITER ;
+
+/* Creation de triggers pour verifier si le monnaie de la facture correspond 
+a la monnaie de compte bancaire quand on insere le paiment  
+*/
+
+DELIMITER //
+
+CREATE TRIGGER before_incoming_payment_insert
+BEFORE INSERT ON incoming_payment
+FOR EACH ROW
+BEGIN
+    DECLARE new_bank_account_currency INT;
+    DECLARE new_sale_invoice_currency INT;
+    
+    -- Fetch the currency of the bank account
+    SELECT bank_account_currency
+    INTO new_bank_account_currency 
+    FROM bank_account 
+    WHERE bank_account.id_bank_account = NEW.incoming_payment_bank_account;
+    
+    -- Fetch the currency of the sale invoice
+    SELECT invoice_currency
+    INTO new_sale_invoice_currency 
+    FROM sale_invoice 
+    WHERE sale_invoice.id_sale_invoice = NEW.incoming_payment_sale_invoice;
+
+    -- Ensure both currencies are found
+    IF new_bank_account_currency IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Bank account not found or no currency specified';
+    END IF;
+
+    IF new_sale_invoice_currency IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Sale invoice not found or no currency specified';
+    END IF;
+
+    -- If currencies mismatch, raise an error to prevent insertion
+    IF new_bank_account_currency <> new_sale_invoice_currency THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Currency of sale invoice and bank account mismatch';
+    END IF;
+END;
+
+//
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER before_incoming_payment_update
+BEFORE UPDATE ON incoming_payment
+FOR EACH ROW
+BEGIN
+    DECLARE new_bank_account_currency INT;
+    DECLARE new_sale_invoice_currency INT;
+    
+    -- Fetch the currency of the bank account
+    SELECT bank_account_currency
+    INTO new_bank_account_currency 
+    FROM bank_account 
+    WHERE bank_account.id_bank_account = NEW.incoming_payment_bank_account;
+    
+    -- Fetch the currency of the sale invoice
+    SELECT invoice_currency
+    INTO new_sale_invoice_currency 
+    FROM sale_invoice 
+    WHERE sale_invoice.id_sale_invoice = NEW.incoming_payment_sale_invoice;
+
+    -- Ensure both currencies are found
+    IF new_bank_account_currency IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Bank account not found or no currency specified';
+    END IF;
+
+    IF new_sale_invoice_currency IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Sale invoice not found or no currency specified';
+    END IF;
+
+    -- If currencies mismatch, raise an error to prevent insertion
+    IF new_bank_account_currency <> new_sale_invoice_currency THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Currency of sale invoice and bank account mismatch';
+    END IF;
+END;
+
+//
+DELIMITER ;
+
