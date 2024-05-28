@@ -97,3 +97,17 @@ INNER JOIN bank_account ba ON ba.id_bank_account = ip.incoming_payment_bank_acco
 INNER JOIN bank ON bank.id_bank = ba.bank_account_bank
 INNER JOIN country bank_country ON bank_country.id_country = bank.bank_country
 ORDER BY ip.incoming_payment_date;
+
+-- on fait view 'average_price_by_product_and_point_of_sale_view'
+DROP VIEW IF EXISTS average_price_by_product_and_point_of_sale_view;
+CREATE VIEW average_price_by_product_and_point_of_sale_view AS
+SELECT
+       product,
+       CONCAT(sale_terms, ' ',sale_point, ', ',sale_point_country) AS sale_terms_and_place,
+       DATE_FORMAT(sale_date, '%b %Y') AS sale_month,
+       CAST(SUM(quantity_sold) AS DECIMAL(12,3)) AS quantity_sold,
+       units,
+       CAST(SUM(sales_amount_CHF) / SUM(quantity_sold)AS DECIMAL(15,2)) AS average_price_CHF
+
+FROM sales_statistics_view
+GROUP BY product, sale_terms_and_place, sale_month, units;
